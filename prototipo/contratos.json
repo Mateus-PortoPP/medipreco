@@ -1,0 +1,150 @@
+{
+  "convencoes": {
+    "linha_do_tempo": "base cadastrada: vale o que estava cadastrado no sistema (data_processamento)",
+    "hora_da_contagem": "09:00",
+    "dia_nao_util": "a contagem recua para o dia útil anterior; a emissão avança para o próximo dia útil",
+    "posicao_de_um_dia": "a do fim daquele dia (23:59:59)",
+    "historico_completo_desde": "2026-06-01",
+    "feriados": ["2026-06-04", "2026-09-07", "2026-10-12", "2026-11-02", "2026-11-15", "2026-12-25"]
+  },
+  "contratos": [
+    {
+      "cliente": "Aurora Logística",
+      "contrato": "MP-2024-018",
+      "clausula_de": {"conta": "5.1", "preco": "5.1", "apuracao": "5.3", "emissao": "5.4"},
+      "conta": "vidas",
+      "apuracao": {"metodo": "foto", "dia": 26, "mes": "referencia"},
+      "preco": {"tipo": "por_plano", "valores": {"Base": 7.50, "Plus": 12.00}},
+      "minimo_vidas": null,
+      "notas": {"tipo": "unica", "tomador": "41.220.871/0001-16"},
+      "emissao": {"tipo": "primeiro_dia_util", "mes": "seguinte"},
+      "vencimento_dias": 15,
+      "regra": "Cobra por vida, com preço conforme o plano (Base R$ 7,50, Plus R$ 12,00). Conta as vidas cadastradas na base no dia 26 do mês de referência.",
+      "clausulas": {
+        "4.1": "São obrigações da CONTRATANTE: (a) manter a base de beneficiários atualizada; (b) divulgar o programa aos seus colaboradores; (c) efetuar os pagamentos nos prazos deste contrato.",
+        "5.1": "A CONTRATANTE pagará mensalmente à MEDIPREÇO, por vida elegível, o valor correspondente ao plano em que a vida estiver enquadrada: Plano Base R$ 7,50; Plano Plus R$ 12,00.",
+        "5.2": "Considera-se vida elegível o colaborador ativo e seus dependentes cadastrados na base enviada pela CONTRATANTE. Os dependentes seguem o plano do titular.",
+        "5.3": "A quantidade de vidas de cada plano será apurada pela posição da base no dia 26 (vinte e seis) do mês de referência.",
+        "5.4": "A nota fiscal será emitida no primeiro dia útil do mês seguinte ao de referência, com vencimento em 15 (quinze) dias."
+      },
+      "leituras": [
+        {"ponto": "\"Posição da base no dia 26\"", "adotado": "A base cadastrada no sistema no dia 26. Saída informada depois da contagem não reduz a nota.", "apoio": "contrato", "evidencia": "Cláusulas 5.3 e 4.1 (a). A 5.2 fala em \"colaborador ativo\" e admite outra leitura; por isso a premissa fica declarada."}
+      ]
+    },
+    {
+      "cliente": "Bravo Tecnologia",
+      "contrato": "MP-2024-041",
+      "clausula_de": {"conta": "4.1", "preco": "4.1", "apuracao": "4.3", "emissao": "4.3", "acerto": "4.4"},
+      "conta": "titulares",
+      "apuracao": {"metodo": "foto", "dia": 26, "mes": "anterior"},
+      "preco": {"tipo": "fixo", "valor": 15.00},
+      "minimo_vidas": null,
+      "acerto": {"efetivos": "ao_menos_um_dia"},
+      "notas": {"tipo": "unica", "tomador": "52.907.316/0001-75"},
+      "emissao": {"tipo": "dia_fixo", "dia": 27, "mes": "anterior"},
+      "vencimento_dias": null,
+      "regra": "Cobra R$ 15,00 por titular; dependentes não pagam. É pré-pago: conta os titulares cadastrados no dia 26 do mês anterior ao de referência. A diferença para os titulares que estiveram mesmo ativos no mês entra na nota seguinte, a crédito ou a débito.",
+      "clausulas": {
+        "3.2": "São obrigações da CONTRATANTE: (a) manter a base de beneficiários atualizada; (b) divulgar o programa aos seus colaboradores; (c) efetuar os pagamentos nos prazos deste contrato.",
+        "4.1": "A CONTRATANTE pagará à MEDIPREÇO o valor mensal de R$ 15,00 (quinze reais) por titular ativo.",
+        "4.2": "Os dependentes dos titulares têm acesso ao plano sem custo adicional.",
+        "4.3": "O pagamento é antecipado. A nota fiscal de cada mês de referência será emitida no dia 27 (vinte e sete) do mês anterior, com base no número de titulares ativos no dia 26 (vinte e seis) desse mês anterior.",
+        "4.4": "A diferença entre os titulares cobrados antecipadamente e os titulares efetivamente ativos no mês de referência será compensada na nota fiscal seguinte, a crédito ou a débito."
+      },
+      "leituras": [
+        {"ponto": "\"Titulares efetivamente ativos no mês de referência\" (4.4)", "adotado": "Mês cheio por qualquer dia ativo: conta o titular que esteve ativo em ao menos 1 dia do mês. Quem entrou depois da cobrança antecipada é cobrado no acerto; quem foi cobrado e saiu antes de o mês começar gera crédito; quem saiu no meio do mês não gera crédito.", "apoio": "pergunta", "quando": "acerto", "evidencia": "A 4.4 fala em ativos \"no mês de referência\", não numa data, e a 4.1 cobra um valor mensal sem pró-rata. A outra leitura possível é a foto do dia 26: o acerto seria a diferença entre duas contagens. O motor calcula as duas, e a ficha escolhe (campo acerto)."},
+        {"ponto": "O acerto cai numa nota emitida antes de o mês acabar (4.4 e 4.3)", "adotado": "A nota do dia 27 traz o acerto do mês com o que se sabe até o dia 26. Quem entra entre o dia 27 e o fim do mês é cobrado por esse mês num ajuste, na nota seguinte.", "apoio": "pergunta", "quando": "acerto", "evidencia": "O contrato não diz o que fazer com quem entra ou sai nesses dias. O ajuste é premissa deste cálculo, não texto do contrato."}
+      ]
+    },
+    {
+      "cliente": "Delta Benefícios",
+      "contrato": "MP-2025-006",
+      "clausula_de": {"conta": "7.1", "preco": "7.1", "apuracao": "7.2", "emissao": "7.4"},
+      "conta": "vidas",
+      "apuracao": {"metodo": "ao_menos_um_dia"},
+      "preco": {"tipo": "faixa", "faixas": [{"ate": 5000, "valor": 10.00}, {"ate": 10000, "valor": 9.00}, {"ate": null, "valor": 8.00}]},
+      "minimo_vidas": null,
+      "notas": {"tipo": "unica", "tomador": "60.184.533/0001-10"},
+      "emissao": {"tipo": "primeiro_dia_util", "mes": "seguinte"},
+      "vencimento_dias": null,
+      "regra": "Cobra a mensalidade inteira de toda vida que esteve cadastrada ao menos 1 dia no mês. O preço por vida depende do tamanho da base: até 5.000 vidas R$ 10,00; de 5.001 a 10.000 R$ 9,00; acima disso R$ 8,00.",
+      "clausulas": {
+        "7.1": "A PARCEIRA pagará mensalmente à MEDIPREÇO o valor por vida previsto na tabela abaixo, conforme a quantidade de vidas: até 5.000, R$ 10,00; de 5.001 a 10.000, R$ 9,00; acima de 10.000, R$ 8,00.",
+        "7.2": "Será devida a mensalidade integral de toda vida que tenha permanecido ativa por ao menos 1 (um) dia no mês de referência, independentemente da data de inclusão ou de exclusão.",
+        "7.3": "A PARCEIRA é a única responsável pela exatidão das bases que enviar à MEDIPREÇO.",
+        "7.4": "A nota fiscal será emitida no primeiro dia útil do mês seguinte ao de referência."
+      },
+      "leituras": [
+        {"ponto": "Faixa de preço", "adotado": "O preço da faixa vale para todas as vidas (por volume), não só para as excedentes.", "apoio": "dados", "evidencia": "A nota de agosto cobrou R$ 9,00 sobre as 5.051 vidas inteiras."},
+        {"ponto": "Carga desfeita pelo suporte", "adotado": "Entradas que o suporte da Medipreço desfez não são cobradas.", "apoio": "dados", "evidencia": "O suporte registrou as 600 saídas, em 09/10, com a data de 07/10, o mesmo dia da carga: as entradas foram anuladas. Pela letra da cláusula 7.2 (\"ao menos 1 dia\") daria para cobrar; por isso é pergunta à Medipreço."},
+        {"ponto": "Saída informada no mês seguinte", "adotado": "Conta no mês em que a vida ainda estava cadastrada, como nos outros contratos. Na Delta isso pode mudar a faixa de preço.", "apoio": "dados", "evidencia": "Em outubro, 192 das 5.105 vidas têm data de desligamento em setembro e só saíram do sistema no arquivo de 05/10. Sem elas seriam 4.913 vidas, na faixa de R$ 10,00."}
+      ]
+    },
+    {
+      "cliente": "Estrela Indústria",
+      "contrato": "MP-2025-033",
+      "clausula_de": {"conta": "5.1", "preco": "5.1", "apuracao": "5.1", "minimo": "5.2", "notas": "5.4", "emissao": "5.4"},
+      "conta": "vidas",
+      "apuracao": {"metodo": "foto", "dia": 26, "mes": "referencia"},
+      "preco": {"tipo": "fixo", "valor": 9.50},
+      "minimo_vidas": 500,
+      "notas": {"tipo": "unica", "tomador": "27.645.190/0001-60"},
+      "emissao": {"tipo": "primeiro_dia_util", "mes": "seguinte"},
+      "vencimento_dias": null,
+      "regra": "Cobra R$ 9,50 por vida da matriz e da filial, pela base cadastrada no dia 26 do mês de referência, com mínimo de 500 vidas. Uma nota só, contra a matriz.",
+      "clausulas": {
+        "5.1": "A CONTRATANTE pagará mensalmente à MEDIPREÇO o valor de R$ 9,50 (nove reais e cinquenta centavos) por vida elegível da matriz e da filial, apurada pela posição da base no dia 26 (vinte e seis) do mês de referência.",
+        "5.2": "Fica estabelecido o faturamento mínimo correspondente a 500 (quinhentas) vidas por mês.",
+        "5.3": "A CONTRATANTE deverá informar à MEDIPREÇO as admissões e os desligamentos em até 5 (cinco) dias úteis da data em que ocorrerem.",
+        "5.4": "Será emitida uma única nota fiscal, contra a matriz, no primeiro dia útil do mês seguinte ao de referência."
+      },
+      "leituras": [
+        {"ponto": "\"Posição da base no dia 26\"", "adotado": "A base cadastrada no sistema no dia 26, como na Aurora.", "apoio": "contrato", "evidencia": "Cláusula 5.1. O contrato não diz a consequência de informar fora do prazo de 5 dias úteis (5.3)."}
+      ]
+    },
+    {
+      "cliente": "Faro Serviços",
+      "contrato": "MP-2026-002",
+      "clausula_de": {"conta": "4.1", "preco": "4.1", "apuracao": "4.2", "emissao": "4.3"},
+      "conta": "vidas",
+      "apuracao": {"metodo": "pro_rata"},
+      "preco": {"tipo": "fixo", "valor": 11.00},
+      "minimo_vidas": null,
+      "notas": {"tipo": "unica", "tomador": "71.403.268/0001-22"},
+      "emissao": {"tipo": "primeiro_dia_util", "mes": "seguinte"},
+      "vencimento_dias": null,
+      "regra": "Cobra R$ 11,00 por vida por mês, proporcional aos dias em que cada vida esteve cadastrada no mês (pró-rata dia).",
+      "clausulas": {
+        "4.1": "A CONTRATANTE pagará à MEDIPREÇO o valor de R$ 11,00 (onze reais) por vida por mês.",
+        "4.2": "As inclusões e exclusões ocorridas durante o mês serão cobradas proporcionalmente aos dias de vigência de cada vida no mês de referência (pró-rata dia).",
+        "4.3": "A nota fiscal será emitida no primeiro dia útil do mês seguinte ao de referência."
+      },
+      "leituras": [
+        {"ponto": "Divisor do pró-rata", "adotado": "Dias corridos do mês de referência (28 a 31).", "apoio": "contrato", "evidencia": "Sentido do termo: fração proporcional ao tempo efetivamente usado. A cláusula 4.2 fala em \"dias de vigência de cada vida no mês de referência\"."}
+      ]
+    },
+    {
+      "cliente": "Grupo Cedro",
+      "contrato": "MP-2024-057",
+      "clausula_de": {"conta": "6.1", "preco": "6.1", "apuracao": "6.2", "notas": "6.3", "emissao": "6.3"},
+      "conta": "vidas",
+      "apuracao": {"metodo": "maximo_do_mes"},
+      "preco": {"tipo": "fixo", "valor": 8.00},
+      "minimo_vidas": null,
+      "notas": {"tipo": "por_cnpj", "rateio": "dia_do_maximo"},
+      "emissao": {"tipo": "primeiro_dia_util", "mes": "seguinte"},
+      "vencimento_dias": null,
+      "regra": "Cobra R$ 8,00 por vida. A quantidade é o maior número de vidas que o grupo teve em um dia do mês. O valor é dividido entre as três empresas, com uma nota para cada.",
+      "clausulas": {
+        "2.2": "Cada empresa do GRUPO CEDRO é responsável pela base dos seus próprios colaboradores.",
+        "6.1": "O GRUPO CEDRO pagará mensalmente à MEDIPREÇO o valor de R$ 8,00 (oito reais) por vida elegível.",
+        "6.2": "A quantidade de vidas corresponderá ao número máximo de vidas elegíveis alcançado no mês de referência.",
+        "6.3": "O valor será rateado entre as empresas do GRUPO CEDRO na proporção das vidas de cada uma, e cada empresa receberá nota fiscal própria, emitida no primeiro dia útil do mês seguinte ao de referência."
+      },
+      "leituras": [
+        {"ponto": "Pessoa transferida entre empresas do grupo", "adotado": "Conta uma vez só, na empresa de destino.", "apoio": "dados", "evidencia": "A pessoa tem o mesmo identificador nos dois CNPJs, e a saída e a entrada têm a mesma data."},
+        {"ponto": "Em que dia medir a proporção entre as empresas, quando alguém muda de empresa no mês", "adotado": "No dia em que o máximo foi alcançado. Só faz diferença no mês em que há mudança de empresa dentro do grupo; sem isso, a divisão é praticamente a mesma em qualquer dia.", "apoio": "pergunta", "quando": "transferencia", "evidencia": "A 6.3 manda dividir \"na proporção das vidas de cada uma\" e não diz o dia. Em agosto e setembro ninguém mudou de empresa, e a divisão varia no máximo R$ 31 conforme o dia. Em outubro, 126 pessoas passaram da Lojas Sul para a Distribuição em 14/10: a nota da Lojas Sul é de R$ 2.864,00 pelo dia do máximo e de R$ 1.854,88 pelo último dia do mês."}
+      ]
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+.venv/
+.ipynb_checkpoints/
+__pycache__/
+*.pyc
+saidas/
+.DS_Store
+.vscode/
+.claude/
+
+# Material recebido da Medipreço (kit do case): não sobe
+dados/
+
+# Telas geradas têm dados do kit: não sobem. Os logos sobem, o servidor usa.
+prototipo/site/*
+!prototipo/site/assets/
+
+# Anotações de trabalho, que não fazem parte da entrega
+notas/
