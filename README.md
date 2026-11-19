@@ -29,16 +29,37 @@ cp /caminho/do/kit/base.sqlite dados/
 python3 prototipo/servidor.py
 ```
 
+O terminal mostra algo assim:
+
+```
+Fechamento do mês — protótipo
+
+  Abra http://localhost:8000
+
+  [22:14:51] fechamento calculado em 0,74 s — 6 contratos, 19 fechamentos, 25 notas
+```
+
 O navegador abre sozinho em `http://localhost:8000`. Se a porta 8000 estiver ocupada, ele usa a próxima livre e mostra no terminal qual é. Se o navegador não abrir, copie o endereço que aparece no terminal.
 
 **4. O que experimentar** (uns 5 minutos)
 
 - **Lista do mês:** as notas de outubro de todos os clientes, calculadas agora. A barra escura no topo mostra quando o cálculo rodou e quanto levou.
-- **Baixar as notas para emitir:** o arquivo que o financeiro leva para a emissão, uma linha por item. Abre direto na planilha.
+
+  ![A lista do mês: valor do mês, notas a emitir, avisos e a tabela de notas por cliente](docs/imagens/1-lista-do-mes.png)
+
+- **Baixar as notas para emitir:** hoje o financeiro monta a planilha à mão. Aqui o sistema já calculou tudo, e este arquivo é o resultado pronto, uma linha por item de nota, para levar ao sistema que emite a nota fiscal (a emissão está fora do protótipo). Abre no Excel.
 - **Uma nota:** clique em Aurora Logística. A nota mostra a regra, a conta, as 737 pessoas cobradas e as 19 saídas que chegaram depois da contagem.
+
+  ![A nota da Aurora: valor, vidas cobradas, data da contagem e a conta passo a passo](docs/imagens/2-nota.png)
+
 - **O que dá para vender:** o botão no canto do topo. É a página do comercial: os modelos de cobrança que o sistema sabe calcular, os que recusa e por quê.
+
+  ![A página do comercial: quantas combinações de contrato o sistema sabe cobrar](docs/imagens/3-vender.png)
+
 - **Um contrato que o sistema não sabe cobrar:** abra `prototipo/contratos.json` e, na Faro Serviços, troque `"minimo_vidas": null` por `"minimo_vidas": 500` (mínimo num contrato pró-rata). Salve e recarregue a página: o protótipo para e diz o motivo, em vez de calcular errado. Desfaça a troca depois.
 - **Rodar as conferências:** o botão no topo roda os 50 testes e mostra o resultado na tela.
+
+  ![O resultado das conferências: 50 de 50](docs/imagens/4-conferencias.png)
 
 **5. Para parar:** Ctrl+C no terminal.
 
@@ -58,6 +79,7 @@ python3 prototipo/gerar_site.py   # grava as telas em prototipo/site/, para abri
 docs/
   PROPOSTA.md        a proposta
   uso-de-ia.md       como a IA foi usada, o que eu decidi e onde ela errou
+  imagens/           as capturas de tela usadas neste README
 prototipo/
   servidor.py        o protótipo no navegador
   motor.py           o cálculo

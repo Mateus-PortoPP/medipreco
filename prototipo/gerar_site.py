@@ -50,8 +50,8 @@ main{max-width:1120px;margin:0 auto;padding:28px 24px 64px}
 h2{font-size:22px;line-height:1.25;margin:40px 0 6px}
 h2+p.sub{margin:0 0 16px;color:var(--escuro);max-width:75ch}
 h3{font-size:16px;margin:20px 0 8px}
-.cartao{background:var(--branco);border:1px solid var(--borda);border-radius:16px;padding:20px 24px;
-box-shadow:0 1px 2px #0e28410f,0 10px 24px -14px #0e28412e}
+.cartao{background:var(--branco);border:1px solid var(--borda);border-radius:10px;padding:20px 24px;
+box-shadow:0 1px 2px #0e28410f}
 .blocos{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px;margin-top:-28px}
 .bloco .rotulo{font-size:14px;color:var(--escuro);font-weight:600}
 .bloco .valor{font-size:28px;font-weight:700;line-height:1.2;margin-top:2px}
@@ -59,19 +59,27 @@ box-shadow:0 1px 2px #0e28410f,0 10px 24px -14px #0e28412e}
 .tabela{width:100%;border-collapse:collapse;font-size:15px}
 .tabela th{text-align:left;font-size:13px;color:var(--escuro);font-weight:600;padding:8px 12px;border-bottom:2px solid var(--borda);
 white-space:nowrap}
-.tabela td{padding:10px 12px;border-bottom:1px solid var(--borda);vertical-align:top}
+.tabela td{padding:12px 12px;border-bottom:1px solid var(--borda);vertical-align:top}
 .tabela tr:last-child td{border-bottom:0}
 .tabela .num{text-align:right;white-space:nowrap}
 .tabela tfoot td{font-weight:700;border-top:2px solid var(--borda)}
 .rolagem{overflow-x:auto}
-.selo{display:inline-block;padding:2px 10px;border-radius:999px;font-size:13px;font-weight:600;white-space:nowrap}
+.lista td,.lista th{white-space:nowrap;padding-right:20px}
+.lista td:last-child,.lista th:last-child{white-space:normal;width:100%;padding-right:12px}
+.lista .contrato{display:block;color:var(--escuro);font-size:13px;font-weight:500}
+.sinal{display:block;font-size:14px;line-height:1.5;color:var(--navy)}
+.sinal::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:8px;background:var(--claro)}
+.sinal.erro::before{background:var(--erro)}.sinal.atencao::before{background:#d99a00}.sinal.info::before{background:var(--ciano-cta)}
+.sinal.ok{color:var(--claro)}.sinal.ok::before{display:none}
+.selo{display:inline-block;padding:2px 8px;border-radius:4px;font-size:13px;font-weight:600;white-space:nowrap}
 .selo.erro{background:var(--erro-bg);color:var(--erro)}.selo.atencao{background:var(--ambar-bg);color:var(--ambar)}
 .selo.info{background:var(--ciano-bg);color:var(--ciano-texto)}.selo.ok{background:#eef2f6;color:var(--escuro)}
 .selo.apoio-contrato{background:#eef2f6;color:var(--navy)}.selo.apoio-dados{background:var(--ciano-bg);color:var(--ciano-texto)}
 .selo.apoio-pergunta{background:var(--ambar-bg);color:var(--ambar)}
-.aviso{border-left:4px solid var(--borda);padding:10px 16px;margin:10px 0;background:var(--branco);border-radius:0 12px 12px 0}
-.aviso.erro{border-color:var(--erro);background:var(--erro-bg)}.aviso.atencao{border-color:#d99a00;background:var(--ambar-bg)}
-.aviso.info{border-color:var(--ciano-cta);background:var(--ciano-bg)}
+.aviso{border:1px solid var(--borda);border-left:3px solid var(--claro);padding:12px 16px;margin:10px 0;background:var(--branco);border-radius:6px;
+font-size:15px;color:var(--escuro)}
+.aviso>strong:first-child{color:var(--navy);margin-bottom:2px}
+.aviso.erro{border-left-color:var(--erro)}.aviso.atencao{border-left-color:#d99a00}.aviso.info{border-left-color:var(--ciano-cta)}
 .aviso>strong:first-child{display:block}
 .passos{margin:8px 0 0;padding-left:22px}.passos li{margin:4px 0}
 .regra{font-size:18px;line-height:1.5;margin:0;max-width:70ch}
@@ -83,7 +91,7 @@ details{margin-top:12px}summary{cursor:pointer;font-weight:600;color:var(--ciano
 .baixar{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin:20px 0 0;padding-top:16px;border-top:1px solid var(--borda)}
 .baixar span{color:var(--escuro);font-size:13px}
 .botao{display:inline-block;background:var(--ciano-cta);color:var(--branco);font-weight:600;font-size:14px;
-  padding:9px 20px;border-radius:999px;text-decoration:none}
+  padding:9px 18px;border-radius:8px;text-decoration:none}
 .botao:hover{background:var(--ciano-texto)}
 .etiqueta{font-size:13px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--escuro)}
 .migalha{font-size:14px;margin:0 0 8px}.migalha a{color:var(--ciano)}
@@ -125,14 +133,14 @@ def arquivo_nota(f):
     return f"nota-{slug(f['cliente'])}-{f['competencia']}.html"
 
 
-def tabela(cabecalho, linhas, rodape=None):
+def tabela(cabecalho, linhas, rodape=None, classe=""):
     """cabecalho: lista de (título, é_número). linhas: lista de listas já em HTML."""
     th = "".join(f'<th class="{"num" if num else ""}">{escape(t)}</th>' for t, num in cabecalho)
     def tr(celulas):
         return "<tr>" + "".join(f'<td class="{"num" if cabecalho[i][1] else ""}">{c}</td>' for i, c in enumerate(celulas)) + "</tr>"
     corpo = "".join(tr(l) for l in linhas)
     pe = f"<tfoot>{tr(rodape)}</tfoot>" if rodape else ""
-    return f'<div class="rolagem"><table class="tabela"><thead><tr>{th}</tr></thead><tbody>{corpo}</tbody>{pe}</table></div>'
+    return f'<div class="rolagem"><table class="tabela {classe}"><thead><tr>{th}</tr></thead><tbody>{corpo}</tbody>{pe}</table></div>'
 
 
 def bloco(rotulo, valor, nota=""):
@@ -209,13 +217,13 @@ def lista_do_mes(mes, fechamentos, meses):
 
     linhas = []
     for f in do_mes:
-        selos = "".join(f'<span class="selo {a["nivel"]}">{escape(a["titulo"])}</span> ' for a in f["alertas"] if not a["diagnostico"])
-        linhas.append([f'<a href="{arquivo_nota(f)}">{escape(f["cliente"])}</a><br><span class="nota" style="color:var(--escuro);font-size:13px">{f["contrato"]}</span>',
+        selos = "".join(f'<span class="sinal {a["nivel"]}">{escape(a["titulo"])}</span>' for a in f["alertas"] if not a["diagnostico"])
+        linhas.append([f'<a href="{arquivo_nota(f)}">{escape(f["cliente"])}</a><span class="contrato">{f["contrato"]}</span>',
                        METODO[f["metodo"]], br_num(f["quantidade"]), str(len(f["notas"])), br_reais(f["total"]),
-                       selos or '<span class="selo ok">Sem avisos</span>'])
+                       selos or '<span class="sinal ok">Sem avisos</span>'])
     corpo = blocos + '<h2 id="notas">Notas do mês</h2>' + '<div class="cartao">' + tabela(
         [("Cliente", 0), ("Como conta", 0), ("Quantidade", 1), ("Notas", 1), ("Valor", 1), ("Conferência", 0)], linhas,
-        ["Total", "", "", str(notas), br_reais(total), ""]) + (
+        ["Total", "", "", str(notas), br_reais(total), ""], classe="lista") + (
         f'<p class="baixar"><a class="botao" href="notas-{mes}.csv" download>Baixar as notas para emitir</a>'
         f'<span>Arquivo com as {notas} notas, uma linha por item: tomador, CNPJ, item, quantidade, valor e data de emissão.</span></p>'
         ) + "</div>"
@@ -224,17 +232,18 @@ def lista_do_mes(mes, fechamentos, meses):
         corpo += '<h2 id="conferir">Para conferir antes de emitir</h2>' + "".join(
             aviso(a, f' · <a href="{arquivo_nota(f)}">{escape(f["cliente"])}</a>', arquivo_nota(f)) for f, a in conferencia)
 
-    linhas = [[f'<a href="{arquivo_nota(f)}#diagnostico">{escape(f["cliente"])}</a>', br_reais(f["faturado"]["total"]),
+    linhas = [[f'<a href="{arquivo_nota(f)}#diagnostico">{escape(f["cliente"])}</a>',
+               ", ".join(dict.fromkeys(i["nota"] for i in f["faturado"]["itens"])) or "—", br_reais(f["faturado"]["total"]),
                br_reais(f["total"]), diferenca(f["diferenca"]),
                clausulas(f["clausulas_em_jogo"], arquivo_nota(f)) or "—"] for f in do_mes]
     corpo += ('<h2>&nbsp;</h2><div class="cartao diagnostico" id="diagnostico"><span class="etiqueta">Diagnóstico do case · não faz parte do produto</span>'
               "<h2>O que foi faturado × a regra do contrato</h2>"
               '<p class="sub" style="color:var(--escuro);max-width:75ch">As notas emitidas contaram a base num único instante, igual para todos os clientes. '
-              "Esta tabela compara esse valor com o que a regra de cada contrato manda cobrar. "
+              "Esta tabela compara esse valor com o que a regra de cada contrato manda cobrar; os itens de cada nota emitida estão na página do cliente. "
               "A coluna do meio diz quanto o faturado ficou acima ou abaixo da regra, e a última aponta a cláusula que a nota emitida não seguiu. "
               "O valor pela regra depende das leituras adotadas, que estão em cada nota.</p>"
-              + tabela([("Cliente", 0), ("Faturado", 1), ("Pela regra do contrato", 1), ("Faturado, contra a regra", 1), ("No contrato", 0)], linhas,
-                       ["Total", br_reais(faturado), br_reais(total), diferenca(round(total - faturado, 2)), ""])
+              + tabela([("Cliente", 0), ("Notas emitidas", 0), ("Faturado", 1), ("Pela regra do contrato", 1), ("Faturado, contra a regra", 1), ("No contrato", 0)], linhas,
+                       ["Total", "", br_reais(faturado), br_reais(total), diferenca(round(total - faturado, 2)), ""], classe="lista")
               + "".join(aviso(a, f' · <a href="{arquivo_nota(f)}#diagnostico">{escape(f["cliente"])}</a>', arquivo_nota(f)) for f, a in diagnostico)
               + "</div>")
     secoes = [("notas", "Notas")] + ([("conferir", "Para conferir")] if conferencia else []) + [("diagnostico", "Diagnóstico")]
