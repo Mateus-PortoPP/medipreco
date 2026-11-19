@@ -535,7 +535,7 @@ def clausulas_de(ficha, *partes):
 
 def alertas(ficha, r, meus, dias, dados, conv):
     avisos = []
-    # diagnostico=True: compara com a nota que já foi emitida. Só existe neste estudo, não no produto.
+    # diagnostico=True: compara com a nota que já foi emitida.
     # clausulas: os números das cláusulas do contrato que a nota emitida deixou de seguir.
     ok = lambda nivel, titulo, texto, diagnostico=False, clausulas=(): avisos.append(
         {"nivel": nivel, "titulo": titulo, "texto": texto, "diagnostico": diagnostico, "clausulas": list(clausulas)})

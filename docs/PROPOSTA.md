@@ -178,7 +178,7 @@ O enunciado pede algo funcionando. Construí um protótipo que roda no computado
 - **Cliente que está na base e não tem ficha fica de fora sem aviso.**
 - **Toda saída registrada pelo suporte é tratada como carga desfeita.** A regra veio de um único caso, o da Delta. Uma saída comum registrada pelo suporte tiraria a pessoa também das notas passadas, o que contraria a escolha central. Num sistema real, a anulação precisa de uma marca própria.
 
-Nas telas, a comparação entre o que foi faturado e o que o contrato manda fica numa caixa à parte. Ela é a evidência do diagnóstico, e não faz parte do produto que proponho.
+Nas telas, a comparação entre o que foi faturado e o que o contrato manda fica numa seção própria, o diagnóstico. Ela mostra, nota a nota, onde a cobrança de hoje se afasta do contrato e qual cláusula está em jogo.
 
 ## 10. Como usei a IA
 

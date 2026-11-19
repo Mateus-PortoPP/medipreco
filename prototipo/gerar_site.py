@@ -86,7 +86,6 @@ font-size:15px;color:var(--escuro)}
 dl.clausulas{margin:8px 0 0}dl.clausulas dt{font-weight:700;margin-top:10px}dl.clausulas dd{margin:0;color:var(--escuro)}
 details{margin-top:12px}summary{cursor:pointer;font-weight:600;color:var(--ciano-texto)}
 .dois{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
-.diagnostico{border:2px dashed var(--borda);background:transparent;box-shadow:none}
 .diagnostico h2{margin-top:0}
 .baixar{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin:20px 0 0;padding-top:16px;border-top:1px solid var(--borda)}
 .baixar span{color:var(--escuro);font-size:13px}
@@ -236,7 +235,7 @@ def lista_do_mes(mes, fechamentos, meses):
                ", ".join(dict.fromkeys(i["nota"] for i in f["faturado"]["itens"])) or "—", br_reais(f["faturado"]["total"]),
                br_reais(f["total"]), diferenca(f["diferenca"]),
                clausulas(f["clausulas_em_jogo"], arquivo_nota(f)) or "—"] for f in do_mes]
-    corpo += ('<h2>&nbsp;</h2><div class="cartao diagnostico" id="diagnostico"><span class="etiqueta">Diagnóstico do case · não faz parte do produto</span>'
+    corpo += ('<h2>&nbsp;</h2><div class="cartao diagnostico" id="diagnostico"><span class="etiqueta">Diagnóstico</span>'
               "<h2>O que foi faturado × a regra do contrato</h2>"
               '<p class="sub" style="color:var(--escuro);max-width:75ch">As notas emitidas contaram a base num único instante, igual para todos os clientes. '
               "Esta tabela compara esse valor com o que a regra de cada contrato manda cobrar; os itens de cada nota emitida estão na página do cliente. "
@@ -408,7 +407,7 @@ def nota_explicada(f, ficha, vizinhas, meses, do_mes):
 
     # 7. diagnóstico: o que foi faturado de verdade
     fat = f["faturado"]
-    corpo += ('<h2>&nbsp;</h2><div class="cartao diagnostico" id="diagnostico"><span class="etiqueta">Diagnóstico do case · não faz parte do produto</span>'
+    corpo += ('<h2>&nbsp;</h2><div class="cartao diagnostico" id="diagnostico"><span class="etiqueta">Diagnóstico</span>'
               "<h2>O que foi faturado nesta competência</h2>"
               f'<p class="sub" style="color:var(--escuro)">Contagem feita em {br_data_hora(fat["contagem_em"])}; nota emitida em {br_data(fat["emissao"])}.</p>'
               + tabela([("Nota", 0), ("Tomador", 0), ("Item", 0), ("Quantidade", 1), ("Valor unitário", 1), ("Valor", 1)],
@@ -492,11 +491,12 @@ def o_que_da_para_vender(fichas, fechamentos, meses):
     especial = lambda c: c["modelo"][3] or c["modelo"][1] == "pro_rata"
     simples, especiais = [c for c in cat if not especial(c)], [c for c in cat if especial(c)]
     ok = lambda lista: sum(1 for c in lista if not c["motivos"])
-    corpo = '<div class="blocos">' + bloco("Peças de cobrança", str(sum(len(o) for _, _, o in PECAS)),
-                                           "todas calculadas: o que conta, como conta, preço, mínimo e notas") \
-        + bloco("Modelos sem mínimo e sem pró-rata", f"{ok(simples)} de {len(simples)}", "toda combinação é cobrável") \
-        + bloco("Modelos com mínimo ou pró-rata", f"{ok(especiais)} de {len(especiais)}",
-                "cobráveis com preço fixo e uma nota; nos outros, o sistema recusa e diz por quê") + "</div>"
+    corpo = '<div class="blocos">' + bloco("Modelos de contrato possíveis", str(len(cat)),
+                                           "todas as combinações das cinco escolhas de um contrato, listadas abaixo") \
+        + bloco("O sistema sabe cobrar", f"{ok(cat)} de {len(cat)}",
+                f"os {ok(simples)} modelos sem mínimo e sem pró-rata, e {ok(especiais)} dos {len(especiais)} que têm mínimo ou pró-rata") \
+        + bloco("O sistema recusa", f"{len(recusados)} de {len(cat)}",
+                "todos têm mínimo ou pró-rata; ele diz o motivo em vez de calcular errado") + "</div>"
 
     corpo += ('<h2 id="pecas">As cinco escolhas de um contrato</h2><p class="sub">Todo contrato do kit se descreve com estas escolhas. '
               "Um modelo novo é uma combinação delas.</p>" + '<div class="cartao">' + tabela(
